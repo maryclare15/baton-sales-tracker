@@ -1,22 +1,22 @@
 {
   "funnel": [
-    {"key": "hfc_tot", "actual": 675},
-    {"key": "hfc_pos", "actual": 383},
-    {"key": "cf_tot",  "actual": 124},
-    {"key": "qual_cf", "actual": 76},
-    {"key": "vr",      "actual": 71},
+    {"key": "hfc_tot", "actual": 684},
+    {"key": "hfc_pos", "actual": 387},
+    {"key": "cf_tot",  "actual": 128},
+    {"key": "qual_cf", "actual": 77},
+    {"key": "vr",      "actual": 75},
     {"key": "ssa",     "actual": 28},
-    {"key": "live",    "actual": 23}
+    {"key": "live",    "actual": 24}
   ],
   "icp": [
-    {"label": "CF",      "icp": 37, "total": 124},
-    {"label": "VR Held", "icp": 37, "total": 71},
+    {"label": "CF",      "icp": 34, "total": 128},
+    {"label": "VR Held", "icp": 35, "total": 75},
     {"label": "SSA",     "icp": 14, "total": 28},
-    {"label": "LIVE",    "icp": 11, "total": 23}
+    {"label": "LIVE",    "icp": 11, "total": 24}
   ],
   "inventory": {
-    "signed": 81635750,
-    "live": 68451062
+    "signed": 86920557,
+    "live": 69346062
   },
-  "syncedAt": "2026-06-25T00:00:00Z"
+  "syncedAt": "2026-06-29T17:30:00Z"
 }
