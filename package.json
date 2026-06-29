@@ -1,0 +1,8 @@
+{
+  "name": "baton-sales-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "update": "node scripts/update-metrics.js"
+  }
+}

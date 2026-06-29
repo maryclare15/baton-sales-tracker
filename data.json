@@ -1,0 +1,22 @@
+{
+  "funnel": [
+    {"key": "hfc_tot", "actual": 675},
+    {"key": "hfc_pos", "actual": 383},
+    {"key": "cf_tot",  "actual": 124},
+    {"key": "qual_cf", "actual": 76},
+    {"key": "vr",      "actual": 71},
+    {"key": "ssa",     "actual": 28},
+    {"key": "live",    "actual": 23}
+  ],
+  "icp": [
+    {"label": "CF",      "icp": 37, "total": 124},
+    {"label": "VR Held", "icp": 37, "total": 71},
+    {"label": "SSA",     "icp": 14, "total": 28},
+    {"label": "LIVE",    "icp": 11, "total": 23}
+  ],
+  "inventory": {
+    "signed": 81635750,
+    "live": 68451062
+  },
+  "syncedAt": "2026-06-25T00:00:00Z"
+}

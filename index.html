@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baton · June 2026 Sales</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:    #0E1520;
+  --ground: #F0F2F8;
+  --surface:#FFFFFF;
+  --border: #CDD2E8;
+  --t1:     #0E1520;
+  --t2:     #4A5268;
+  --t3:     #8E95AE;
+  --blue:   #2B5AEB;
+  --blue-bg:#EBF0FD;
+  --good:   #0E7A5C;
+  --good-bg:#E3F4EF;
+  --warn:   #B86800;
+  --warn-bg:#FDF3DA;
+  --bad:    #C42B2B;
+  --bad-bg: #FDECEC;
+}
+
+html{font-size:14px;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--ground);
+  font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI','Helvetica Neue',sans-serif;
+  color:var(--t1);
+  line-height:1.5;
+  min-height:100vh;
+}
+
+/* ─── HEADER ─────────────────────────────── */
+.hd{
+  background:var(--ink);
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.hd-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:52px;
+  max-width:1280px;margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-name{font-size:15px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.brand-divider{color:rgba(255,255,255,.18);font-weight:300;font-size:18px}
+.brand-sub{font-size:12px;color:rgba(255,255,255,.42);font-weight:400;letter-spacing:.01em}
+.hd-right{display:flex;align-items:center;gap:12px}
+.month-tag{font-size:13px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.days-chip{
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--warn);background:rgba(184,104,0,.16);
+  padding:3px 8px;border-radius:3px;
+}
+.hd-nav{
+  display:flex;align-items:flex-end;gap:2px;
+  padding:0 28px;
+  max-width:1280px;margin:0 auto;
+}
+.tab-btn{
+  padding:9px 18px 8px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.44);
+  background:none;border:none;border-bottom:2px solid transparent;
+  cursor:pointer;transition:color .12s,border-color .12s;
+  letter-spacing:.01em;margin-bottom:-1px;
+}
+.tab-btn:hover{color:rgba(255,255,255,.8)}
+.tab-btn.on{color:#fff;border-bottom-color:var(--blue)}
+.tab-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:2px}
+
+/* ─── MAIN ────────────────────────────────── */
+.wrap{max-width:1280px;margin:0 auto;padding:28px}
+
+.panel{display:none}
+.panel.on{display:block}
+
+/* ─── SECTION LABELS ─────────────────────── */
+.slabel{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--t3);
+  margin-bottom:10px;display:block;
+}
+
+/* ─── FUNNEL ROW ─────────────────────────── */
+.funnel{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  background:var(--border);gap:1px;
+  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  margin-bottom:20px;
+}
+.fs{background:var(--surface);padding:14px 14px 12px}
+.fs-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--t3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:5px;
+}
+.fs-num{
+  font-size:26px;font-weight:800;
+  font-variant-numeric:tabular-nums;letter-spacing:-.025em;
+  line-height:1;color:var(--t1);
+}
+.fs-num.empty{font-size:20px;color:var(--t3)}
+.fs-goal{font-size:11px;color:var(--t3);margin-top:3px;font-variant-numeric:tabular-nums}
+.fs-pct{
+  font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em;margin-top:4px;
+}
+.fs-pct.empty{color:var(--t3);font-weight:500;font-size:13px}
+.fs-bar{height:2px;background:var(--border);border-radius:1px;margin-top:8px;overflow:hidden}
+.fs-fill{height:100%;border-radius:1px;transition:width .4s ease}
+
+/* ─── DEAL ROW ───────────────────────────── */
+.deal-row{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  background:var(--border);gap:1px;
+  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  margin-bottom:20px;
+}
+.db{background:var(--surface);padding:13px 14px}
+.db-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:4px}
+.db-num{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--t1);line-height:1}
+.db-num.empty{font-size:18px;color:var(--t3)}
+.db-goal{font-size:11px;color:var(--t3);margin-top:2px;font-variant-numeric:tabular-nums}
+.db-pct{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px}
+.db-pct.empty{color:var(--t3);font-weight:400}
+
+/* ─── LEADERBOARD ────────────────────────── */
+.lb{display:grid;gap:6px;margin-bottom:6px}
+.lb-row{
+  display:grid;grid-template-columns:22px 1fr 160px 76px;
+  align-items:center;gap:16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:5px;
+  padding:12px 16px;cursor:pointer;
+  transition:border-color .12s,background .12s;
+}
+.lb-row:hover{border-color:var(--blue)}
+.lb-row.on{border-color:var(--blue);background:var(--blue-bg)}
+.lb-row:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.lb-rank{font-size:11px;font-weight:700;color:var(--t3);text-align:center;font-variant-numeric:tabular-nums}
+.lb-info .lb-name{font-size:14px;font-weight:600;color:var(--t1)}
+.lb-info .lb-full{font-size:11px;color:var(--t3);font-weight:400}
+.lb-prog{display:flex;flex-direction:column;gap:4px}
+.lb-prog-nums{
+  display:flex;justify-content:space-between;
+  font-size:11px;font-variant-numeric:tabular-nums;
+}
+.lb-prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.lb-prog-fill{height:100%;border-radius:2px}
+.lb-pct{
+  font-size:13px;font-weight:700;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ─── BDR DETAIL ─────────────────────────── */
+.person-nav{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.pb{
+  padding:6px 16px;font-size:13px;font-weight:500;
+  color:var(--t2);background:var(--surface);
+  border:1px solid var(--border);border-radius:4px;
+  cursor:pointer;transition:all .12s;
+}
+.pb:hover{border-color:var(--blue);color:var(--blue)}
+.pb.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pb:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.person-panel{display:none}
+.person-panel.on{display:block}
+
+.person-hero{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:20px 24px;margin-bottom:12px;
+}
+.ph-left .ph-name{
+  font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--t1);
+}
+.ph-left .ph-full{font-size:12px;color:var(--t3);font-weight:400;margin-top:1px}
+.ph-right{text-align:right}
+.ph-pts-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3)}
+.ph-pts{
+  display:flex;align-items:baseline;justify-content:flex-end;gap:4px;
+  margin-top:2px;
+}
+.ph-pts-num{
+  font-size:38px;font-weight:900;font-variant-numeric:tabular-nums;
+  letter-spacing:-.035em;line-height:1;
+}
+.ph-pts-of{font-size:16px;color:var(--t3);font-variant-numeric:tabular-nums;font-weight:500}
+.ph-pct-badge{
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  padding:3px 9px;border-radius:3px;
+  margin-top:6px;display:inline-block;
+}
+
+/* ─── METRIC TABLE ───────────────────────── */
+.mtable{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.mth{
+  display:grid;grid-template-columns:1fr 56px 100px 64px 72px;
+  gap:12px;align-items:center;
+  padding:9px 20px;border-bottom:1px solid var(--border);
+  background:var(--ground);
+}
+.mth span{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3)}
+.mth span:not(:first-child){text-align:right}
+.mtable-bdr .mth{grid-template-columns:1fr 56px 100px 64px}
+.mrow{
+  display:grid;grid-template-columns:1fr 56px 100px 64px 72px;
+  gap:12px;align-items:center;
+  padding:10px 20px;border-bottom:1px solid var(--border);
+}
+.mtable-bdr .mrow{grid-template-columns:1fr 56px 100px 64px}
+.mrow:last-child{border-bottom:none}
+.mrow-name{font-size:13px;color:var(--t2);font-weight:500}
+.mrow-pts{font-size:12px;color:var(--t3);text-align:right;font-variant-numeric:tabular-nums}
+.mrow-bar-wrap{position:relative}
+.mrow-bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.mrow-bar-fill{height:100%;border-radius:2px;transition:width .35s ease}
+.mrow-conv{text-align:right}
+.mrow-conv-chip{display:inline-block;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--t2);background:var(--ground);border:1px solid var(--border);border-radius:3px;padding:1px 6px;letter-spacing:.01em}
+.mrow-conv-chip::before{content:'→ ';color:var(--t3);font-weight:400}
+.mrow-vals{
+  display:flex;align-items:baseline;justify-content:flex-end;
+  gap:3px;font-size:13px;font-variant-numeric:tabular-nums;
+}
+.mrow-actual{font-weight:700;color:var(--t1)}
+.mrow-sep{color:var(--t3);font-size:11px}
+.mrow-goal{color:var(--t3)}
+.pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:3px;text-align:right;white-space:nowrap}
+.pill-good{color:var(--good);background:var(--good-bg)}
+.pill-warn{color:var(--warn);background:var(--warn-bg)}
+.pill-bad{color:var(--bad);background:var(--bad-bg)}
+.pill-na{color:var(--t3);background:var(--ground)}
+.pill-above{color:var(--blue);background:var(--blue-bg)}
+.pill-vol{color:var(--t3);background:var(--ground);font-weight:500;font-size:10px}
+
+/* ─── SSA DEAL DRAWER ────────────────────── */
+.mrow-wrap{display:contents}
+.mrow-drawer{
+  display:none;
+  padding:8px 20px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.mrow-drawer.open{display:block}
+.deal-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.deal-chip{
+  font-size:11px;color:var(--t2);
+  background:var(--ground);border:1px solid var(--border);
+  border-radius:3px;padding:2px 8px;
+}
+.mrow-toggle-btn{
+  display:inline-flex;align-items:center;gap:3px;
+  margin-left:8px;cursor:pointer;
+  color:var(--blue);font-size:10px;font-weight:600;
+  background:none;border:none;padding:0;vertical-align:middle;
+}
+.toggle-chev{
+  display:inline-block;font-size:8px;
+  transition:transform .15s;
+}
+
+/* ─── AE SECTION ─────────────────────────── */
+.ae-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ae-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.ae-card-hd{
+  background:var(--ink);padding:18px 22px 16px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.ae-name{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.ae-role{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:2px}
+.ae-pts-col{text-align:right}
+.ae-pts-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.35)}
+.ae-pts-val{font-size:30px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:#fff;line-height:1}
+.ae-pts-of{font-size:13px;color:rgba(255,255,255,.35);font-variant-numeric:tabular-nums}
+.ae-pts-pct{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:rgba(255,255,255,.5);margin-top:3px;letter-spacing:.01em}
+.ae-body{padding:0}
+.ae-inv{display:grid;grid-template-columns:1fr 1fr;background:var(--border);gap:1px;border-top:1px solid var(--border)}
+.ae-inv-item{background:var(--surface);padding:12px 16px}
+.ae-inv-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:3px}
+.ae-inv-val{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--t1);line-height:1}
+
+/* ─── BAR COLOR HELPERS ──────────────────── */
+.fill-good{background:var(--good)}
+.fill-warn{background:var(--warn)}
+.fill-bad{background:var(--bad)}
+.fill-blue{background:var(--blue)}
+.fill-na{background:var(--border)}
+
+/* ─── ICP TAB ────────────────────────────── */
+.icp-def{
+  background:var(--blue-bg);border:1px solid rgba(43,90,235,.18);
+  border-radius:6px;padding:12px 16px;
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+}
+.icp-def-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);white-space:nowrap}
+.icp-def-val{font-size:12px;color:var(--t2)}
+.icp-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--border);gap:1px;
+  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+}
+.icp-card{background:var(--surface);padding:22px 20px 18px}
+.icp-card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:8px}
+.icp-card-num{font-size:42px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--t1);line-height:1}
+.icp-card-share{font-size:12px;color:var(--t3);margin-top:6px;font-variant-numeric:tabular-nums}
+.icp-card-share strong{color:var(--t2);font-weight:600}
+
+/* ─── GRID HELPERS ───────────────────────── */
+.two-up{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+
+/* ─── NOTE ───────────────────────────────── */
+.data-note{
+  font-size:11px;color:var(--t3);
+  padding:10px 0 0;
+  display:flex;align-items:center;gap:6px;
+}
+.data-note-dot{width:5px;height:5px;border-radius:50%;background:var(--warn);flex-shrink:0}
+
+@media(max-width:900px){
+  .funnel{grid-template-columns:repeat(4,1fr)}
+  .deal-row{grid-template-columns:repeat(3,1fr)}
+  .ae-grid{grid-template-columns:1fr}
+  .lb-row{grid-template-columns:22px 1fr 60px}
+  .mth,.mrow{grid-template-columns:1fr 100px 56px}
+  .mth span:nth-child(2),.mth span:nth-child(5),.mrow-pts,.mrow:nth-child(n) .pill{display:none}
+  .wrap{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-top">
+    <div class="brand">
+      <span class="brand-name">Baton</span>
+      <span class="brand-divider">/</span>
+      <span class="brand-sub">Sales Tracker</span>
+    </div>
+    <div class="hd-right">
+      <span class="month-tag">June 2026</span>
+      <span class="days-chip" id="days-chip"></span>
+    </div>
+  </div>
+  <nav class="hd-nav">
+    <button class="tab-btn on" data-tab="team">Team</button>
+    <button class="tab-btn" data-tab="bdrs">BDRs</button>
+    <button class="tab-btn" data-tab="aes">AEs</button>
+    <button class="tab-btn" data-tab="icp">ICP</button>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ══ TEAM PANEL ══════════════════════════════ -->
+  <div class="panel on" id="panel-team">
+
+    <span class="slabel">Funnel — June 2026</span>
+    <div class="funnel" id="funnel"></div>
+
+    <span class="slabel">Signed deals — by size</span>
+    <div class="deal-row" id="deals"></div>
+
+    <span class="slabel">Inventory — June 2026</span>
+    <div class="deal-row" id="inventory" style="grid-template-columns:repeat(2,1fr)"></div>
+
+    <div class="data-note">
+      <span class="data-note-dot"></span>
+      <span id="data-note-text">HFC · CF · CF Qual · VR · SSA from Attio · SSA deal bands from Hex MEA · LIVE from Hex MEA</span>
+    </div>
+
+  </div>
+
+  <!-- ══ BDRs PANEL ══════════════════════════════ -->
+  <div class="panel" id="panel-bdrs">
+    <nav class="person-nav" id="bdr-nav"></nav>
+    <div id="bdr-panels"></div>
+  </div>
+
+  <!-- ══ AEs PANEL ══════════════════════════════= -->
+  <div class="panel" id="panel-aes">
+    <div class="ae-grid" id="ae-grid"></div>
+    <div class="data-note" style="margin-top:14px">
+      <span class="data-note-dot"></span>
+      <span>SSA + LIVE actuals from Attio &amp; MEA · Deal-size bands from MEA initial valuations · VR Held is visibility only (no points)</span>
+    </div>
+  </div>
+
+  <!-- ══ ICP PANEL ═══════════════════════════════ -->
+  <div class="panel" id="panel-icp">
+    <div class="icp-def">
+      <span class="icp-def-label">ICP definition</span>
+      <span class="icp-def-val">Businesses valued over $1M (Voltron valuation · fallback: adjusted cash flow &gt; $333K)</span>
+    </div>
+    <span class="slabel" style="margin-top:20px">ICP pipeline — June 2026</span>
+    <div class="icp-grid" id="icp-grid"></div>
+    <div class="data-note" style="margin-top:14px">
+      <span class="data-note-dot"></span>
+      <span>ICP metrics from Hex Sales Performance Dashboard · % of total shows ICP share of full-team June actuals</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────
+const FUNNEL = [
+  { key:'hfc_tot',   label:'HFC Total',    goal:900, actual:675 },
+  { key:'hfc_pos',   label:'HFC Positive', goal:288, actual:383 },
+  { key:'cf_tot',    label:'CF Total',     goal:150, actual:124 },
+  { key:'qual_cf',   label:'Qual. CF',     goal:93,  actual:76  },
+  { key:'vr',        label:'VR Held',      goal:71,  actual:71  },
+  { key:'ssa',       label:'SSA',          goal:30,  actual:28  },
+  { key:'live',      label:'LIVE',         goal:20,  actual:23  },
+];
+
+const DEALS = [
+  { label:'< $1MM',     goal:14, actual:14 },
+  { label:'$1MM–$3MM',  goal:8,  actual:7  },
+  { label:'$3MM–$5MM',  goal:6,  actual:2  },
+  { label:'$5MM–$7MM',  goal:4,  actual:3  },
+  { label:'$7MM–$10MM', goal:0,  actual:0  },
+  { label:'$10MM+',     goal:0,  actual:2  },
+];
+
+const INVENTORY = [
+  { label:'Inventory Signed', value:81635750 },
+  { label:'Inventory Live',   value:68451062 },
+];
+
+const BDRS = [
+  {
+    id:'jimmy', name:'Jimmy', full:'Jimmy McKeown',
+    pts:{g:110,a:101},
+    rows:[
+      {label:'Calls Held',   g:180, a:131,  pts:0},
+      {label:'HFC Positive', g:120, a:70,   pts:0},
+      {label:'CF',           g:63,  a:40,   pts:0},
+      {label:'Qual. CF',     g:39,  a:24,   pts:0},
+      {label:'VR Held',      g:25,  a:26,   pts:2},
+      {label:'SSA',          g:10,  a:7,    pts:3, deals:['IronGate Creative, LLC','Health Fairs Plus','Llywelyn\'s Pub LLC','Red Rocks Cafe','Retail One Group, Inc','Victoria\'s Castle','Coast Designs LLC (Cotton and Bow)']},
+      {label:'< $1MM',     g:4,   a:3,    pts:1, deals:['Victoria\'s Castle','IronGate Creative, LLC','Coast Designs LLC (Cotton and Bow)']},
+      {label:'$1MM–$3MM',  g:4,   a:2,    pts:4, deals:['Llywelyn\'s Pub LLC','Health Fairs Plus']},
+      {label:'$3MM–$5MM',  g:2,   a:1,    pts:5, deals:['Red Rocks Cafe']},
+      {label:'$5MM–$7MM',  g:0,   a:1,    pts:6, deals:['Retail One Group, Inc']},
+      {label:'$7MM–$10MM', g:0,   a:0,    pts:7},
+      {label:'$10MM+',     g:0,   a:0,    pts:8},
+    ]
+  },
+  {
+    id:'mah', name:'MAH', full:'Margaret Anne Hurley',
+    pts:{g:85,a:68},
+    rows:[
+      {label:'Calls Held',   g:180, a:143,  pts:0},
+      {label:'HFC Positive', g:150, a:114,  pts:0},
+      {label:'CF',           g:50,  a:35,   pts:0},
+      {label:'Qual. CF',     g:31,  a:23,   pts:0},
+      {label:'VR Held',      g:20,  a:19,   pts:2},
+      {label:'SSA',          g:8,   a:6,    pts:3, deals:['CALL MY GUY INC.','Deco Salon Furniture Inc.','Indiana Veterinary Imaging, Inc','Precision Construction West Inc','Tandem Group','Timberwolf Pet Products']},
+      {label:'< $1MM',     g:4,   a:2,    pts:1, deals:['Timberwolf Pet Products','CALL MY GUY INC.']},
+      {label:'$1MM–$3MM',  g:3,   a:3,    pts:4, deals:['Indiana Veterinary Imaging, Inc','Tandem Group','Deco Salon Furniture Inc.']},
+      {label:'$3MM–$5MM',  g:1,   a:0,    pts:5},
+      {label:'$5MM–$7MM',  g:0,   a:1,    pts:6, deals:['Precision Construction West Inc']},
+      {label:'$7MM–$10MM', g:0,   a:0,    pts:7},
+      {label:'$10MM+',     g:0,   a:0,    pts:8},
+    ]
+  },
+  {
+    id:'wynter', name:'Wynter', full:'Wynter Schnell',
+    pts:{g:85,a:82},
+    rows:[
+      {label:'Calls Held',   g:180, a:110,  pts:0},
+      {label:'HFC Positive', g:150, a:68,   pts:0},
+      {label:'CF',           g:50,  a:33,   pts:0},
+      {label:'Qual. CF',     g:31,  a:18,   pts:0},
+      {label:'VR Held',      g:20,  a:15,   pts:2},
+      {label:'SSA',          g:8,   a:5,    pts:3, deals:['Premier Labor, Inc.','Alessi Roth LLC (dba Alero Sport)','Capital Pro - Solutions','Interior Design Beth Phillips','Solace Meds, LLC']},
+      {label:'< $1MM',     g:4,   a:2,    pts:1, deals:['Interior Design Beth Phillips','Alessi Roth LLC (dba Alero Sport)']},
+      {label:'$1MM–$3MM',  g:3,   a:1,    pts:4, deals:['Premier Labor, Inc.']},
+      {label:'$3MM–$5MM',  g:1,   a:0,    pts:5},
+      {label:'$5MM–$7MM',  g:0,   a:0,    pts:6},
+      {label:'$7MM–$10MM', g:0,   a:0,    pts:7},
+      {label:'$10MM+',     g:0,   a:2,    pts:8, deals:['Capital Pro - Solutions','Solace Meds, LLC']},
+    ]
+  },
+  {
+    id:'meg', name:'Meg', full:'Meaghan Karrat',
+    pts:{g:18,a:14},
+    rows:[
+      {label:'Calls Held',   g:180, a:128,  pts:0},
+      {label:'HFC Positive', g:60,  a:56,   pts:0},
+      {label:'CF',           g:19,  a:7,    pts:0},
+      {label:'Qual. CF',     g:12,  a:5,    pts:0},
+      {label:'VR Held',      g:5,   a:3,    pts:2},
+      {label:'SSA',          g:2,   a:1,    pts:3, deals:['INTERNATIONAL LINK LOGISTICS LLC']},
+      {label:'< $1MM',     g:2,   a:0,    pts:1},
+      {label:'$1MM–$3MM',  g:0,   a:0,    pts:4},
+      {label:'$3MM–$5MM',  g:0,   a:1,    pts:5, deals:['INTERNATIONAL LINK LOGISTICS LLC']},
+      {label:'$5MM–$7MM',  g:0,   a:0,    pts:6},
+      {label:'$7MM–$10MM', g:0,   a:0,    pts:7},
+      {label:'$10MM+',     g:0,   a:0,    pts:8},
+    ]
+  },
+  {
+    id:'liam', name:'Liam', full:'Liam Miller',
+    pts:{g:18,a:4},
+    rows:[
+      {label:'Calls Held',   g:180, a:112,  pts:0},
+      {label:'HFC Positive', g:60,  a:48,   pts:0},
+      {label:'CF',           g:19,  a:6,    pts:0},
+      {label:'Qual. CF',     g:12,  a:4,    pts:0},
+      {label:'VR Held',      g:5,   a:2,    pts:2},
+      {label:'SSA',          g:2,   a:0,    pts:3, deals:[]},
+      {label:'< $1MM',     g:2,   a:0,    pts:1},
+      {label:'$1MM–$3MM',  g:0,   a:0,    pts:4},
+      {label:'$3MM–$5MM',  g:0,   a:0,    pts:5},
+      {label:'$5MM–$7MM',  g:0,   a:0,    pts:6},
+      {label:'$7MM–$10MM', g:0,   a:0,    pts:7},
+      {label:'$10MM+',     g:0,   a:0,    pts:8},
+    ]
+  },
+];
+
+const AES = [
+  {
+    id:'mc', name:'Mary Clare', full:'Mary Clare Langan',
+    inv:{signed:39921838, live:27713560},
+    ttm:{ssa:{count:4,total:15},live:{count:6,total:14},vr:{avg:80,median:197}},
+    pts:{g:175,a:null},
+    rows:[
+      {label:'VR Held', g:0,  a:71,   pts:0},
+      {label:'SSA',     g:15, a:15,   pts:5, deals:['IronGate Creative, LLC','MJBC, LLC','Alessi Roth LLC (dba Alero Sport)','Do Good Better Consulting','Indiana Veterinary Imaging, Inc','Interior Design Beth Phillips','Precision Construction West Inc','Professional Home Inspection Service Inc.','Rin Robyn Pools','Solace Meds, LLC','Squat Productions L.L.C.','Tandem Group','WORTHY Self-Care LLC','Young Building Solutions LLC','Coast Designs LLC (Cotton and Bow)']},
+      {label:'LIVE',    g:10, a:14,   pts:5, deals:['Local Image','Young Building Solutions LLC','Next Level Advisors (GRN Park Ridge)','Sly Nerds','Mac Mold Base INC','Precision Construction West Inc','GoldSRD','Interior Design Beth Phillips','Alessi Roth LLC (dba Alero Sport)','Professional Home Inspection Service Inc.','EG FOX & FOX, P.C.','Rin Robyn Pools','Indiana Veterinary Imaging, Inc','Tandem Group']},
+      {label:'< $1MM',     g:7,  a:9,    pts:1, deals:['Interior Design Beth Phillips','Professional Home Inspection Service Inc.','Squat Productions L.L.C.','Do Good Better Consulting','Rin Robyn Pools','MJBC, LLC','Alessi Roth LLC (dba Alero Sport)','Coast Designs LLC (Cotton and Bow)','IronGate Creative, LLC']},
+      {label:'$1MM–$3MM',  g:4,  a:3,    pts:4, deals:['Indiana Veterinary Imaging, Inc','Tandem Group','WORTHY Self-Care LLC']},
+      {label:'$3MM–$5MM',  g:3,  a:0,    pts:5},
+      {label:'$5MM–$7MM',  g:2,  a:2,    pts:6, deals:['Precision Construction West Inc','Young Building Solutions LLC']},
+      {label:'$7MM–$10MM', g:0,  a:0,    pts:7},
+      {label:'$10MM+',     g:0,  a:1,    pts:8, deals:['Solace Meds, LLC']},
+    ]
+  },
+  {
+    id:'clara', name:'Clara', full:'Clara Greenstein',
+    inv:{signed:41713912, live:40737502},
+    ttm:{ssa:{count:7,total:13},live:{count:4,total:9},vr:{avg:59,median:28}},
+    pts:{g:175,a:null},
+    rows:[
+      {label:'VR Held', g:0,  a:71,   pts:0},
+      {label:'SSA',     g:15, a:13,   pts:5, deals:['Premier Labor, Inc.','Speedy Medical Transport I, LLC','CALL MY GUY INC.','Capital Pro - Solutions','Deco Salon Furniture Inc.','Health Fairs Plus','INTERNATIONAL LINK LOGISTICS LLC','Llywelyn\'s Pub LLC','Red Rocks Cafe','Retail One Group, Inc','Timberwolf Pet Products','UFacilitate LLC','Victoria\'s Castle']},
+      {label:'LIVE',    g:10, a:9,    pts:5, deals:['Acv Consulting','Cheramie Marine, llc','Rivergate Physical Therapy, pc','Onyx Properties','Audio East LLC','Downhole Stabilization Rockies Inc','Timberwolf Pet Products','Capital Pro - Solutions','INTERNATIONAL LINK LOGISTICS LLC']},
+      {label:'< $1MM',     g:7,  a:5,    pts:1, deals:['UFacilitate LLC','Speedy Medical Transport I, LLC','Timberwolf Pet Products','CALL MY GUY INC.','Victoria\'s Castle']},
+      {label:'$1MM–$3MM',  g:4,  a:4,    pts:4, deals:['Premier Labor, Inc.','Llywelyn\'s Pub LLC','Health Fairs Plus','Deco Salon Furniture Inc.']},
+      {label:'$3MM–$5MM',  g:3,  a:2,    pts:5, deals:['INTERNATIONAL LINK LOGISTICS LLC','Red Rocks Cafe']}, // INTL Link $3,542,700 · Red Rocks $3,232,347 — verified, do not overwrite from Hex
+      {label:'$5MM–$7MM',  g:2,  a:1,    pts:6, deals:['Retail One Group, Inc']},
+      {label:'$7MM–$10MM', g:0,  a:0,    pts:7},
+      {label:'$10MM+',     g:0,  a:1,    pts:8, deals:['Capital Pro - Solutions']},
+    ]
+  },
+];
+
+const ICP = [
+  { label:'CF',          icp:37, total:124 },
+  { label:'VR Held',     icp:37, total:71  },
+  { label:'SSA',         icp:14, total:28  },
+  { label:'LIVE',        icp:11, total:23  },
+];
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────
+function fmtM(n){return'$'+(n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':Math.round(n));}
+function pct(a,g){return(g===0)?null:(a===null)?null:Math.round(a/g*100)}
+
+function statusClass(a,g){
+  if(a===null||g===0)return'na';
+  const p=a/g;
+  if(a>g)return'above';
+  if(p>=.85)return'good';
+  if(p>=.70)return'warn';
+  return'bad';
+}
+
+function pillClass(sc){
+  return{good:'pill-good',warn:'pill-warn',bad:'pill-bad',na:'pill-na',above:'pill-above'}[sc]||'pill-na';
+}
+function fillClass(sc){
+  return{good:'fill-good',warn:'fill-warn',bad:'fill-bad',na:'fill-na',above:'fill-blue'}[sc]||'fill-na';
+}
+
+function barW(a,g){
+  if(a===null||g===0)return 0;
+  return Math.min(100,Math.round(a/g*100));
+}
+
+function fmtPct(a,g){
+  const p=pct(a,g);
+  if(p===null)return'—';
+  return p+'%';
+}
+
+function e(tag,cls,html){
+  const el=document.createElement(tag);
+  if(cls)el.className=cls;
+  if(html!==undefined)el.innerHTML=html;
+  return el;
+}
+
+// ─── FUNNEL ───────────────────────────────────────────────────────────────
+function renderFunnel(){
+  const c=document.getElementById('funnel');
+  c.innerHTML='';
+  FUNNEL.forEach(f=>{
+    const sc=statusClass(f.actual,f.goal);
+    const w=barW(f.actual,f.goal);
+    const p=pct(f.actual,f.goal);
+    const hasData=f.actual!==null;
+    const pctColor=hasData?`color:var(--${sc==='above'?'blue':sc==='na'?'t3':sc})`:null;
+    const div=document.createElement('div');
+    div.className='fs';
+    div.innerHTML=`
+      <div class="fs-label">${f.label}</div>
+      <div class="fs-num${!hasData?' empty':''}">${hasData?f.actual:'—'}</div>
+      <div class="fs-goal">of ${f.goal}</div>
+      <div class="fs-pct${!hasData?' empty':''}" style="${pctColor?pctColor:''}">${hasData?p+'%':'—'}</div>
+      <div class="fs-bar"><div class="fs-fill ${fillClass(sc)}" style="width:${w}%"></div></div>
+    `;
+    c.appendChild(div);
+  });
+}
+
+// ─── INVENTORY ───────────────────────────────────────────────────────────
+function renderInventory(){
+  const c=document.getElementById('inventory');
+  c.innerHTML='';
+  INVENTORY.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='db';
+    div.innerHTML=`
+      <div class="db-label">${item.label}</div>
+      <div class="db-num" style="font-size:26px">${fmtM(item.value)}</div>
+      <div class="db-goal">${item.label==='Inventory Signed'?'27 SSAs':'23 listings'}</div>
+    `;
+    c.appendChild(div);
+  });
+}
+
+// ─── DEALS ────────────────────────────────────────────────────────────────
+function renderDeals(){
+  const c=document.getElementById('deals');
+  c.innerHTML='';
+  DEALS.forEach(d=>{
+    const sc=statusClass(d.actual,d.goal);
+    const p=pct(d.actual,d.goal);
+    const hasData=d.actual!==null;
+    const pctColor=hasData&&d.goal>0?`color:var(--${sc==='above'?'blue':sc==='na'?'t3':sc})`:null;
+    const div=document.createElement('div');
+    div.className='db';
+    const empty=!hasData;
+    div.innerHTML=`
+      <div class="db-label">${d.label}</div>
+      <div class="db-num${empty?' empty':''}">${empty?'—':d.actual}</div>
+      <div class="db-goal">goal ${d.goal}</div>
+      <div class="db-pct${empty?' empty':''}" style="${pctColor||''}">${d.goal===0?'—':hasData?p+'%':'—'}</div>
+    `;
+    c.appendChild(div);
+  });
+}
+
+// ─── BDR NAV + PANELS ────────────────────────────────────────────────────
+function renderBdrs(){
+  const nav=document.getElementById('bdr-nav');
+  const panels=document.getElementById('bdr-panels');
+
+  BDRS.forEach((bdr,i)=>{
+    const btn=document.createElement('button');
+    btn.className='pb'+(i===0?' on':'');
+    btn.dataset.bdrId=bdr.id;
+    btn.textContent=bdr.name;
+    btn.addEventListener('click',()=>selectBdr(bdr.id));
+    btn.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' ')selectBdr(bdr.id)});
+    nav.appendChild(btn);
+
+    const panel=document.createElement('div');
+    panel.className='person-panel'+(i===0?' on':'');
+    panel.id='bdr-'+bdr.id;
+
+    const sc=statusClass(bdr.pts.a,bdr.pts.g);
+    const p=pct(bdr.pts.a,bdr.pts.g);
+
+    const BDR_FUNNEL=['Calls Held','HFC Positive','CF','Qual. CF','VR Held','SSA'];
+    const bdrRowMap=Object.fromEntries(bdr.rows.map(x=>[x.label,x]));
+    let rowsHtml='';
+    bdr.rows.forEach(r=>{
+      const fIdx=BDR_FUNNEL.indexOf(r.label);
+      let convHtml='';
+      if(fIdx>0){
+        const prevRow=bdrRowMap[BDR_FUNNEL[fIdx-1]];
+        if(prevRow&&prevRow.a>0&&r.a!==null){
+          convHtml=`<span class="mrow-conv-chip">${Math.round(r.a/prevRow.a*100)}%</span>`;
+        }
+      }
+      const hasDeals=r.deals&&r.deals.length>0;
+      const toggleBtn=hasDeals?`<button class="mrow-toggle-btn" onclick="toggleDrawer(this)" aria-expanded="false"><span class="toggle-chev">▶</span>${r.deals.length}</button>`:'';
+      const drawerHtml=hasDeals?`<div class="mrow-drawer"><div class="deal-chips">${r.deals.map(d=>`<span class="deal-chip">${d}</span>`).join('')}</div></div>`:'';
+      rowsHtml+=`
+        <div class="mrow${hasDeals?' has-drawer':''}">
+          <div class="mrow-name">${r.label}${r.pts>0?'<span style="margin-left:6px;font-size:10px;color:var(--t3);font-weight:500">${r.pts} pts</span>':''}${toggleBtn}</div>
+          <div class="mrow-pts">${r.pts>0?r.pts+' pts':''}</div>
+          <div class="mrow-conv">${convHtml}</div>
+          <div class="mrow-vals">
+            <span class="mrow-actual">${r.a===null?'—':r.a}</span>
+            <span class="mrow-sep">/</span>
+            <span class="mrow-goal">${r.g}</span>
+          </div>
+        </div>${drawerHtml}`;
+    });
+
+    panel.innerHTML=`
+      <div class="person-hero">
+        <div class="ph-left">
+          <div class="ph-name">${bdr.name}</div>
+          <div class="ph-full">${bdr.full} · BDR</div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-pts-label">Points to goal</div>
+          <div class="ph-pts">
+            <span class="ph-pts-num" style="color:${sc==='good'?'var(--good)':sc==='warn'?'var(--warn)':sc==='bad'?'var(--bad)':sc==='above'?'var(--blue)':'var(--t1)'}">${bdr.pts.a}</span>
+            <span class="ph-pts-of">/ ${bdr.pts.g}</span>
+          </div>
+          <span class="ph-pct-badge ${pillClass(sc)}">${p}% to goal</span>
+        </div>
+      </div>
+      <div class="mtable mtable-bdr">
+        <div class="mth">
+          <span>Metric</span>
+          <span>Pts</span>
+          <span>Conv. Rate</span>
+          <span>Act / Goal</span>
+        </div>
+        ${rowsHtml}
+      </div>`;
+
+    panels.appendChild(panel);
+  });
+}
+
+function selectBdr(id){
+  document.querySelectorAll('.pb').forEach(b=>b.classList.toggle('on',b.dataset.bdrId===id));
+  document.querySelectorAll('.person-panel').forEach(p=>p.classList.toggle('on',p.id==='bdr-'+id));
+}
+
+// ─── AEs ─────────────────────────────────────────────────────────────────
+function renderAes(){
+  const c=document.getElementById('ae-grid');
+  AES.forEach(ae=>{
+    const card=document.createElement('div');
+    card.className='ae-card';
+
+    const aeRowMap=Object.fromEntries(ae.rows.map(x=>[x.label,x]));
+    let rowsHtml='';
+    ae.rows.forEach(r=>{
+      const isVol=r.pts===0;
+      const rsc=isVol?'na':statusClass(r.a,r.g);
+      let pillHtml='';
+      if(isVol){
+        pillHtml=`<span class="pill pill-vol">visibility</span>`;
+      } else if(r.a===null){
+        pillHtml=`<span class="pill pill-na">—</span>`;
+      } else {
+        const rp=pct(r.a,r.g);
+        pillHtml=`<span class="pill ${pillClass(rsc)}">${r.a>r.g&&r.g>0?'above':rp+'%'}</span>`;
+      }
+      let convHtml='';
+      if(r.label==='SSA'){
+        const vrRow=aeRowMap['VR Held'];
+        if(vrRow&&vrRow.a>0&&r.a!==null){
+          convHtml=`<span class="mrow-conv-chip">${Math.round(r.a/vrRow.a*100)}%</span>`;
+        }
+      }
+      const hasDeals=r.deals&&r.deals.length>0;
+      const toggleBtn=hasDeals?`<button class="mrow-toggle-btn" onclick="toggleDrawer(this)" aria-expanded="false"><span class="toggle-chev">▶</span>${r.deals.length}</button>`:'';
+      const drawerHtml=hasDeals?`<div class="mrow-drawer"><div class="deal-chips">${r.deals.map(d=>`<span class="deal-chip">${d}</span>`).join('')}</div></div>`:'';
+      rowsHtml+=`
+        <div class="mrow${hasDeals?' has-drawer':''}">
+          <div class="mrow-name">${r.label}${r.pts>0?'<span style="margin-left:6px;font-size:10px;color:var(--t3);font-weight:500">${r.pts} pts</span>':''}${toggleBtn}</div>
+          <div class="mrow-pts">${r.pts>0?r.pts+' pts':''}</div>
+          <div class="mrow-conv">${convHtml}</div>
+          <div class="mrow-vals">
+            <span class="mrow-actual">${r.a===null?'—':r.a}</span>
+            ${r.g>0?`<span class="mrow-sep">/</span><span class="mrow-goal">${r.g}</span>`:''}
+          </div>
+          <div style="text-align:right">${pillHtml}</div>
+        </div>${drawerHtml}`;
+    });
+
+    const ptsA=ae.rows.filter(r=>r.pts>0&&r.a!==null).reduce((s,r)=>s+r.a*r.pts,0);
+    const sc=statusClass(ptsA,ae.pts.g);
+
+    card.innerHTML=`
+      <div class="ae-card-hd">
+        <div>
+          <div class="ae-name">${ae.name}</div>
+          <div class="ae-role">${ae.full} · AE</div>
+        </div>
+        <div class="ae-pts-col">
+          <div class="ae-pts-label">Points (partial)</div>
+          <div class="ae-pts-val">${ptsA} <span class="ae-pts-of">/ ${ae.pts.g}</span></div>
+          <div class="ae-pts-pct">${pct(ptsA,ae.pts.g)}% to goal</div>
+        </div>
+      </div>
+      <div class="ae-body">
+        <div class="mtable" style="border:none;border-radius:0">
+          <div class="mth">
+            <span>Metric</span>
+            <span>Pts</span>
+            <span>Progress</span>
+            <span>Act / Goal</span>
+            <span>Status</span>
+          </div>
+          ${rowsHtml}
+        </div>
+      </div>
+      ${ae.inv?`<div class="ae-inv">
+        <div class="ae-inv-item"><div class="ae-inv-label">Inventory Signed</div><div class="ae-inv-val">${fmtM(ae.inv.signed)}</div></div>
+        <div class="ae-inv-item"><div class="ae-inv-label">Inventory Live</div><div class="ae-inv-val">${fmtM(ae.inv.live)}</div></div>
+      </div>`:''}
+      ${ae.ttm?`<div class="ae-inv" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="ae-inv-item">
+          <div class="ae-inv-label">SSA True to Month</div>
+          <div class="ae-inv-val">${ae.ttm.ssa.count} <span style="font-size:14px;font-weight:500;color:var(--t3)">/ ${ae.ttm.ssa.total}</span></div>
+          <div style="font-size:11px;color:var(--t3);margin-top:3px">VR within 30 days of signing</div>
+        </div>
+        <div class="ae-inv-item">
+          <div class="ae-inv-label">LIVE True to Month</div>
+          <div class="ae-inv-val">${ae.ttm.live.count} <span style="font-size:14px;font-weight:500;color:var(--t3)">/ ${ae.ttm.live.total}</span></div>
+          <div style="font-size:11px;color:var(--t3);margin-top:3px">Listed within 2 weeks of signing</div>
+        </div>
+        <div class="ae-inv-item">
+          <div class="ae-inv-label">Avg VR → SSA</div>
+          <div class="ae-inv-val">${ae.ttm.vr.avg}<span style="font-size:13px;font-weight:500;color:var(--t3)">d</span></div>
+          <div style="font-size:11px;color:var(--t3);margin-top:3px">Median ${ae.ttm.vr.median}d · all June SSAs</div>
+        </div>
+      </div>`:''}`;
+
+    c.appendChild(card);
+  });
+}
+
+// ─── SSA DEAL TOGGLE ─────────────────────────────────────────────────────
+function toggleDrawer(btn){
+  const mrow=btn.closest('.mrow');
+  const drawer=mrow.nextElementSibling;
+  if(!drawer||!drawer.classList.contains('mrow-drawer'))return;
+  const open=drawer.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open);
+  btn.querySelector('.toggle-chev').style.transform=open?'rotate(90deg)':'';
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('on');
+  });
+});
+
+function renderIcp(){
+  const c=document.getElementById('icp-grid');
+  c.innerHTML='';
+  ICP.forEach(m=>{
+    const card=document.createElement('div');
+    card.className='icp-card';
+    const share=Math.round(m.icp/m.total*100);
+    card.innerHTML=`
+      <div class="icp-card-label">${m.label} in ICP</div>
+      <div class="icp-card-num">${m.icp}</div>
+      <div class="icp-card-share"><strong>${share}%</strong> of ${m.total} total</div>`;
+    c.appendChild(card);
+  });
+}
+
+// ─── DAYS CHIP ────────────────────────────────────────────────────────────
+(function(){
+  const chip = document.getElementById('days-chip');
+  const now = new Date();
+  const eom = new Date(2026, 5, 30); // June 30 2026
+  const diff = Math.ceil((eom - now) / 864e5);
+  if(diff > 0) chip.textContent = diff + ' day' + (diff===1?'':'s') + ' left';
+  else chip.style.display = 'none';
+})();
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+renderFunnel();
+renderInventory();
+renderDeals();
+renderBdrs();
+renderAes();
+renderIcp();
+
+// ─── LIVE DATA (from data.json, updated by GitHub Action) ─────────────────
+fetch('./data.json?v=' + Date.now())
+  .then(r => r.json())
+  .then(live => {
+    let changed = false;
+    if (live.funnel) {
+      live.funnel.forEach(({key, actual}) => {
+        const f = FUNNEL.find(x => x.key === key);
+        if (f && actual !== undefined && actual !== null) { f.actual = actual; changed = true; }
+      });
+      if (changed) renderFunnel();
+    }
+    if (live.icp) {
+      live.icp.forEach(({label, icp, total}) => {
+        const i = ICP.find(x => x.label === label);
+        if (i) { if(icp!==undefined) i.icp=icp; if(total!==undefined) i.total=total; }
+      });
+      document.getElementById('icp-grid').innerHTML='';
+      renderIcp();
+    }
+    if (live.inventory) {
+      if (live.inventory.signed) INVENTORY[0].value = live.inventory.signed;
+      if (live.inventory.live)   INVENTORY[1].value = live.inventory.live;
+      renderInventory();
+    }
+    if (live.syncedAt) {
+      const d = new Date(live.syncedAt);
+      const label = d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+      document.getElementById('data-note-text').textContent =
+        'HFC · CF · Qual CF · VR · SSA from Attio · SSA deal bands from Hex MEA · Synced ' + label;
+    }
+  })
+  .catch(() => {}); // silent fallback — static data stays visible
+</script>
+</body>
+</html>
