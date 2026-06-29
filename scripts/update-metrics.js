@@ -17,24 +17,39 @@ if (!TOKEN) { console.error('HEX_API_TOKEN not set'); process.exit(1); }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+const WORKSPACE_ID = '54427c21-c781-40e3-a57d-a522e8ef8a2d';
+
+// Hex Threads REST API — endpoint confirmed from live thread URL pattern
 async function createThread(prompt) {
-  const res = await fetch(`${HEX_BASE}/ai/thread`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ projectId: PROJECT_ID, userMessage: prompt })
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Create thread ${res.status}: ${body.slice(0,300)}`);
+  const endpoints = [
+    `${HEX_BASE}/thread`,
+    `${HEX_BASE}/workspaces/${WORKSPACE_ID}/thread`,
+    `${HEX_BASE}/workspaces/${WORKSPACE_ID}/threads`,
+  ];
+  for (const url of endpoints) {
+    console.log(`  trying ${url}`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if (res.status === 404) { console.log(`  404, trying next...`); continue; }
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Create thread ${res.status} at ${url}: ${body.slice(0,300)}`);
+    }
+    const data = await res.json();
+    console.log(`  success at ${url}`);
+    return data;
   }
-  return res.json();
+  throw new Error('All thread endpoints returned 404 — Hex Threads API not accessible with personal token');
 }
 
 async function pollThread(threadId, maxMs = 120000) {
   const start = Date.now();
   while (Date.now() - start < maxMs) {
     await sleep(5000);
-    const res = await fetch(`${HEX_BASE}/ai/thread/${threadId}`, {
+    const res = await fetch(`${HEX_BASE}/thread/${threadId}`, {
       headers: { 'Authorization': `Bearer ${TOKEN}` }
     });
     if (!res.ok) { console.log(`Poll ${res.status}, retrying...`); continue; }
@@ -65,7 +80,7 @@ function getResponseText(threadData) {
 }
 
 async function main() {
-  const prompt = `From the Hex Sales Performance Dashboard (project ${PROJECT_ID}), give me June 2026 actuals only.
+  const prompt = `From the Baton Sales Performance Dashboard (Hex project ${PROJECT_ID}), give me June 2026 actuals only.
 Return ONLY a JSON object with no markdown, no explanation, no extra text:
 {
   "hfc_tot": <HFC Total count>,
