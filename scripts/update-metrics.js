@@ -42,7 +42,8 @@ async function createThread(prompt) {
     console.log(`  success at ${url}`);
     return data;
   }
-  throw new Error('All thread endpoints returned 404 — Hex Threads API not accessible with personal token');
+  console.log('Hex Threads API is not accessible via personal token — update data.json manually via Claude Code.');
+  process.exit(0); // graceful exit, no failure email
 }
 
 async function pollThread(threadId, maxMs = 120000) {
